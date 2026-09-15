@@ -1,0 +1,32 @@
+lookback_days: 7
+
+geography:
+  state: DC
+  quadrants:
+    - NW
+    - NE
+
+acquisition_criteria:
+  property_types:
+    - SINGLE_FAMILY
+    - TOWNHOME
+  minimum_building_area: 1300
+  minimum_tax_assessed_value: 350000
+  # Mortgage-free requirement removed per owner decision (Sept 2026).
+  # Deeds/mortgage research is out of scope for this build.
+  mortgage_free_required: false
+
+data_sources:
+  dcgis_residential_cama:
+    url: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/25"
+    provides: [GBA, LANDAREA, USECODE, STYLE_D, STRUCT_D, SALEDATE, PRICE]
+
+  dcgis_vacant_property:
+    url: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/FeatureServer/58"
+    provides: [PROPERTY_ADDRESS, OWNER_NAME_PRIMARY, APPRAISED_VALUE_CURRENT_TOTAL, LAST_SALE_DATE, LAST_SALE_PRICE]
+    note: "This layer is VACANT PROPERTIES ONLY. It is a subset of the full ITSPE tax roll. We still need to locate/confirm the full (all-properties) ITSPE layer for non-vacant qualified properties. See README 'Known Gaps'."
+
+  dcgis_tax_lots:
+    url: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Property_and_Land_WebMercator/MapServer/39"
+    provides: [QUADRANT, SSL]
+    note: "Not one of the 3 URLs in the original handoff doc, but this is the official QUADRANT field with coded values NW/NE/SW/SE."
