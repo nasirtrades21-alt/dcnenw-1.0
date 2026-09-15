@@ -11,6 +11,7 @@ recreate the table, so history is preserved run over run, per the spec.
 """
 
 import sqlite3
+import os
 from datetime import datetime, timezone
 
 DB_PATH = "data/dc_acquisition.db"
@@ -51,6 +52,7 @@ CREATE TABLE IF NOT EXISTS runs (
 
 
 def get_connection():
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
